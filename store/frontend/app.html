@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>General Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div>
+      <div class="store-title">General Store</div>
+      <div class="store-date mono" id="today-label"></div>
+    </div>
+    <div class="header-total">
+      <div class="mono label">today's sales</div>
+      <div class="mono total" id="day-total">₹0.00</div>
+      <div class="mono sub" id="day-count">0 sales</div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-view="sell">Sell</button>
+    <button class="tab" data-view="stock">Stock the shelf</button>
+  </nav>
+
+  <main class="main">
+
+    <!-- SELL VIEW -->
+    <section id="sell-view" class="view">
+      <div id="empty-shelf" class="empty hidden">
+        <div class="empty-title">The shelf is empty</div>
+        <div class="empty-sub">Add today's items and prices before you start selling.</div>
+        <button class="btn primary" id="go-to-stock">Stock the shelf</button>
+      </div>
+      <div id="item-grid" class="item-grid"></div>
+    </section>
+
+    <!-- STOCK VIEW -->
+    <section id="stock-view" class="view hidden">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Add an item</div>
+          <button class="mic-btn" id="mic-name-btn">
+            <span class="mic-dot"></span>
+            <span class="mic-label">say it</span>
+          </button>
+        </div>
+        <div class="voice-msg" id="voice-msg"></div>
+
+        <div class="field-row">
+          <input type="text" id="item-name" class="input" placeholder="Item name" />
+        </div>
+
+        <div class="unit-toggle">
+          <button class="unit-btn active" data-unit="piece">By piece</button>
+          <button class="unit-btn" data-unit="weight">By weight (kg)</button>
+        </div>
+
+        <div class="field-row">
+          <span class="price-prefix mono">₹</span>
+          <input type="text" id="item-price" class="input mono" placeholder="0.00" inputmode="decimal" />
+          <span class="price-suffix mono" id="price-suffix">/ piece</span>
+        </div>
+
+        <div class="tip">Tip: say "rice bag, sixty rupees" — for weight items, price is per kg.</div>
+
+        <button class="btn primary full" id="add-item-btn">Add to today's shelf</button>
+      </div>
+
+      <div class="section-label mono">On the shelf today (<span id="shelf-count">0</span>)</div>
+      <div id="stock-empty" class="empty small hidden">No items yet — add your first one above.</div>
+      <div id="stock-list" class="stock-list"></div>
+    </section>
+
+  </main>
+
+  <!-- WEIGHT ENTRY MODAL -->
+  <div id="weight-modal" class="modal-backdrop hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="weight-modal-item"></div>
+        <button class="mic-btn small" id="mic-weight-btn">
+          <span class="mic-dot"></span>
+          <span class="mic-label">say it</span>
+        </button>
+      </div>
+      <div class="voice-msg" id="weight-voice-msg"></div>
+      <div class="weight-quick">
+        <button class="weight-chip" data-grams="250">250 g</button>
+        <button class="weight-chip" data-grams="500">500 g</button>
+        <button class="weight-chip" data-grams="1000">1 kg</button>
+      </div>
+      <div class="field-row">
+        <input type="text" id="weight-input" class="input mono" placeholder="grams" inputmode="numeric" />
+        <span class="price-suffix mono">grams</span>
+      </div>
+      <div class="modal-preview mono" id="weight-preview">₹0.00</div>
+      <div class="modal-actions">
+        <button class="btn ghost" id="weight-cancel">Cancel</button>
+        <button class="btn primary" id="weight-add">Add to sale</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKET DRAWER -->
+  <div class="ticket-drawer" id="ticket-drawer">
+    <div class="ticket-panel hidden" id="ticket-panel">
+      <div class="ticket-panel-header">
+        <div class="card-title">Current sale</div>
+        <button class="link-btn mono" id="ticket-hide">hide</button>
+      </div>
+      <div class="ticket-lines" id="ticket-lines"></div>
+      <div class="ticket-perf"></div>
+      <button class="link-btn danger mono" id="ticket-clear">clear sale</button>
+    </div>
+    <div class="ticket-bar">
+      <button class="ticket-summary" id="ticket-summary">
+        <span class="mono ticket-count" id="ticket-count">0 items</span>
+        <span class="mono ticket-total" id="ticket-total">₹0.00</span>
+      </button>
+      <button class="btn brass" id="complete-sale-btn" disabled>Complete sale</button>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
