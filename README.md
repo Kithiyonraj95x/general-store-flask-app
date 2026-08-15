@@ -1,3 +1,7 @@
+
+# link to check app 
+Kithiyonraj95x / general-store-flask-app
+master
 # 🛒 General Store Management System
 
 A web-based General Store Management System built using HTML, CSS, JavaScript, Python Flask, and SQLite.
