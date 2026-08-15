@@ -6,7 +6,7 @@
 <title>General Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/app.css" />
+<link rel="stylesheet" href="app.css" />
 </head>
 <body>
 
@@ -17,7 +17,10 @@
     </div>
     <div class="header-total">
       <div class="mono label">today's sales</div>
-      <div class="mono total" id="day-total">₹0.00</div>
+      <div class="total-row">
+        <div class="mono total" id="day-total">₹0.00</div>
+        <button class="edit-total-btn" id="edit-total-btn" title="Adjust today's total">✎</button>
+      </div>
       <div class="mono sub" id="day-count">0 sales</div>
     </div>
   </header>
@@ -106,6 +109,34 @@
     </div>
   </div>
 
+  <!-- ADJUST TOTAL MODAL -->
+  <div id="adjust-modal" class="modal-backdrop hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Adjust today's total</div>
+      </div>
+      <div class="adjust-current mono">Current: <span id="adjust-current-total">₹0.00</span></div>
+
+      <div class="field-row">
+        <span class="price-prefix mono">₹</span>
+        <input type="text" id="adjust-amount" class="input mono" placeholder="0.00" inputmode="decimal" />
+      </div>
+      <div class="field-row">
+        <input type="text" id="adjust-note" class="input" placeholder="Reason (optional) — e.g. correction, refund" />
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn ghost" id="adjust-subtract">− Subtract</button>
+        <button class="btn primary" id="adjust-add">+ Add</button>
+      </div>
+
+      <div class="adjust-divider"></div>
+
+      <button class="link-btn danger mono full-link" id="adjust-reset">Reset today's total to ₹0.00</button>
+      <button class="link-btn mono full-link" id="adjust-cancel">cancel</button>
+    </div>
+  </div>
+
   <!-- TICKET DRAWER -->
   <div class="ticket-drawer" id="ticket-drawer">
     <div class="ticket-panel hidden" id="ticket-panel">
@@ -128,6 +159,6 @@
 
   <div class="toast hidden" id="toast"></div>
 
-  <script src="/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
