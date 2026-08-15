@@ -1,3 +1,4 @@
+🌐 Live Demo: https://general-store-flask-app-2.onrender.com
 # 🛒 General Store Management System
 
 A web-based General Store Management System built using HTML, CSS, JavaScript, Python Flask, and SQLite.
