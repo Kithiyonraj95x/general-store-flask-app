@@ -169,6 +169,43 @@ def create_sale():
     return jsonify({"id": sale_id, "total": total}), 201
 
 
+@app.route("/api/sales/adjustment", methods=["POST"])
+def add_adjustment():
+    """Manually nudge today's total up or down. Recorded as a normal
+    sale entry (unit_type 'adjustment') so the running total and sale
+    count stay consistent and the change is visible in history."""
+    data = request.get_json(force=True) or {}
+    note = (data.get("note") or "Manual adjustment").strip()
+    try:
+        amount = float(data.get("amount"))
+    except (TypeError, ValueError):
+        return jsonify({"error": "amount must be a number"}), 400
+    if amount == 0:
+        return jsonify({"error": "amount cannot be zero"}), 400
+
+    lines = [{"name": note, "unit_type": "adjustment", "price": amount}]
+    conn = get_db()
+    cur = conn.execute(
+        "INSERT INTO sales (date, time, total, lines_json) VALUES (?, ?, ?, ?)",
+        (today_str(), datetime.now().strftime("%I:%M %p"), amount, json.dumps(lines)),
+    )
+    conn.commit()
+    sale_id = cur.lastrowid
+    conn.close()
+    return jsonify({"id": sale_id, "total": amount}), 201
+
+
+@app.route("/api/sales/today", methods=["DELETE"])
+def reset_today():
+    """Reset today's sales total back to ₹0.00 by clearing all of
+    today's sale records. Does not touch the shelf/items."""
+    conn = get_db()
+    conn.execute("DELETE FROM sales WHERE date = ?", (today_str(),))
+    conn.commit()
+    conn.close()
+    return jsonify({"reset": True})
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True, port=5000)
