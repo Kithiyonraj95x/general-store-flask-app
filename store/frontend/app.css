@@ -52,6 +52,12 @@ html, body {
   letter-spacing: 0.1em;
   opacity: 0.6;
 }
+.total-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
 .header-total .total {
   font-size: 22px;
   font-weight: 700;
@@ -61,6 +67,22 @@ html, body {
   font-size: 10px;
   opacity: 0.5;
 }
+.edit-total-btn {
+  border: none;
+  background: rgba(255,255,255,0.08);
+  color: var(--receipt);
+  opacity: 0.75;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edit-total-btn:hover { opacity: 1; background: rgba(255,255,255,0.16); }
 
 /* Tabs */
 .tabs {
@@ -162,7 +184,7 @@ html, body {
 }
 .btn.primary { background: var(--till); color: var(--receipt); }
 .btn.brass { background: var(--brass); color: var(--receipt); }
-.btn.ghost { background: transparent; color: var(--ink-soft); }
+.btn.ghost { background: transparent; color: var(--ink-soft); border: 1px solid var(--paper-deep); }
 .btn.full { width: 100%; padding: 12px; margin-top: 4px; }
 .btn:disabled { background: var(--ink-soft); opacity: 0.5; cursor: not-allowed; }
 
@@ -175,6 +197,7 @@ html, body {
   padding: 8px 0;
 }
 .link-btn.danger { color: var(--danger); }
+.link-btn.full-link { display: block; width: 100%; text-align: center; }
 
 /* Stock view */
 .card {
@@ -463,6 +486,18 @@ html, body {
   gap: 10px;
 }
 .modal-actions .btn { flex: 1; }
+
+/* Adjust total modal */
+.adjust-current {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+.adjust-divider {
+  height: 1px;
+  background: var(--paper-deep);
+  margin: 14px 0 4px;
+}
 
 .toast {
   position: fixed;
