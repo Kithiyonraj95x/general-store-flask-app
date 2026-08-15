@@ -320,6 +320,55 @@ function addWeightToSale() {
   openTicket();
 }
 
+// ---------- adjust total modal ----------
+function openAdjustModal() {
+  document.getElementById("adjust-current-total").textContent = rupees(dayTotal);
+  document.getElementById("adjust-amount").value = "";
+  document.getElementById("adjust-note").value = "";
+  document.getElementById("adjust-modal").classList.remove("hidden");
+}
+
+function closeAdjustModal() {
+  document.getElementById("adjust-modal").classList.add("hidden");
+}
+
+function getAdjustAmount() {
+  const raw = document.getElementById("adjust-amount").value;
+  const val = parseFloat(raw);
+  if (isNaN(val) || val <= 0) return null;
+  return val;
+}
+
+async function applyAdjustment(sign) {
+  const amount = getAdjustAmount();
+  if (amount === null) {
+    showToast("Enter a valid amount");
+    return;
+  }
+  const note = document.getElementById("adjust-note").value.trim() || "Manual adjustment";
+  try {
+    await apiPost("/api/sales/adjustment", { amount: amount * sign, note });
+    closeAdjustModal();
+    await loadSalesToday();
+    showToast(sign > 0 ? "Added to today's total" : "Subtracted from today's total");
+  } catch (e) {
+    showToast("Couldn't adjust total — try again");
+  }
+}
+
+async function resetToday() {
+  const ok = window.confirm("Reset today's total to ₹0.00? This clears all of today's recorded sales.");
+  if (!ok) return;
+  try {
+    await apiDelete("/api/sales/today");
+    closeAdjustModal();
+    await loadSalesToday();
+    showToast("Today's total reset");
+  } catch (e) {
+    showToast("Couldn't reset — try again");
+  }
+}
+
 // ---------- stock actions ----------
 async function addStockItem() {
   const name = document.getElementById("item-name").value.trim();
@@ -464,6 +513,15 @@ function init() {
       c.classList.toggle("active", c.dataset.grams === String(pendingWeightGrams))
     );
     updateWeightPreview();
+  });
+
+  document.getElementById("edit-total-btn").addEventListener("click", openAdjustModal);
+  document.getElementById("adjust-cancel").addEventListener("click", closeAdjustModal);
+  document.getElementById("adjust-add").addEventListener("click", () => applyAdjustment(1));
+  document.getElementById("adjust-subtract").addEventListener("click", () => applyAdjustment(-1));
+  document.getElementById("adjust-reset").addEventListener("click", resetToday);
+  document.getElementById("adjust-amount").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") applyAdjustment(1);
   });
 
   setupVoice("mic-name-btn", (transcript) => {
