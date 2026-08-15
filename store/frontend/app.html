@@ -5,15 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>General Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="app.css" />
 </head>
 <body>
 
   <header class="header">
-    <div>
-      <div class="store-title">General Store</div>
-      <div class="store-date mono" id="today-label"></div>
+    <div class="header-brand">
+      <div class="brand-row">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <line x1="24" y1="6" x2="24" y2="14" class="bm-stroke" />
+          <line x1="9" y1="14" x2="39" y2="14" class="bm-stroke" />
+          <path d="M9 14 L3 27 a9 7 0 0 0 12 0 Z" class="bm-pan" />
+          <path d="M39 14 L33 27 a9 7 0 0 0 12 0 Z" class="bm-pan" />
+          <line x1="24" y1="14" x2="24" y2="19" class="bm-stroke" />
+          <rect x="14" y="19" width="20" height="16" rx="2" class="bm-base" />
+          <line x1="18" y1="24" x2="30" y2="24" class="bm-stroke thin" />
+          <line x1="18" y1="29" x2="26" y2="29" class="bm-stroke thin" />
+        </svg>
+        <div>
+          <div class="store-title">General Store</div>
+          <div class="store-date mono" id="today-label"></div>
+        </div>
+      </div>
+      <div class="shop-tag" aria-hidden="true">
+        <svg class="shop-tag-string" viewBox="0 0 8 26" preserveAspectRatio="none"><path d="M4 0 L4 26" /></svg>
+        <div class="shop-tag-badge">
+          <span class="mono">open</span>
+        </div>
+      </div>
     </div>
     <div class="header-total">
       <div class="mono label">today's sales</div>
@@ -25,9 +45,17 @@
     </div>
   </header>
 
+  <div class="awning" aria-hidden="true"></div>
+
   <nav class="tabs">
-    <button class="tab active" data-view="sell">Sell</button>
-    <button class="tab" data-view="stock">Stock the shelf</button>
+    <button class="tab active" data-view="sell">
+      <svg class="tab-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.4 11.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8L5 8Z" class="ti-fill"/><path d="M8 8a4 4 0 0 1 8 0" class="ti-stroke"/></svg>
+      Sell
+    </button>
+    <button class="tab" data-view="stock">
+      <svg class="tab-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 12 4l9 5-9 5-9-5Z" class="ti-fill"/><path d="M3 9v7l9 5 9-5V9" class="ti-stroke"/><path d="M12 14v10" class="ti-stroke"/></svg>
+      Stock the shelf
+    </button>
   </nav>
 
   <main class="main">
@@ -35,6 +63,15 @@
     <!-- SELL VIEW -->
     <section id="sell-view" class="view">
       <div id="empty-shelf" class="empty hidden">
+        <svg class="empty-illus" viewBox="0 0 160 110" aria-hidden="true">
+          <path d="M20 100h120" class="ei-stroke"/>
+          <path d="M28 100V44l52-24 52 24v56" class="ei-stroke"/>
+          <path d="M28 44h104" class="ei-stroke"/>
+          <path d="M28 72h104" class="ei-stroke"/>
+          <circle cx="60" cy="58" r="7" class="ei-dash"/>
+          <circle cx="100" cy="58" r="7" class="ei-dash"/>
+          <circle cx="80" cy="86" r="7" class="ei-dash"/>
+        </svg>
         <div class="empty-title">The shelf is empty</div>
         <div class="empty-sub">Add today's items and prices before you start selling.</div>
         <button class="btn primary" id="go-to-stock">Stock the shelf</button>
@@ -46,7 +83,10 @@
     <section id="stock-view" class="view hidden">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Add an item</div>
+          <div class="card-title-row">
+            <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" class="ci-stroke"/></svg>
+            <div class="card-title">Add an item</div>
+          </div>
           <button class="mic-btn" id="mic-name-btn">
             <span class="mic-dot"></span>
             <span class="mic-label">say it</span>
@@ -75,7 +115,14 @@
       </div>
 
       <div class="section-label mono">On the shelf today (<span id="shelf-count">0</span>)</div>
-      <div id="stock-empty" class="empty small hidden">No items yet — add your first one above.</div>
+      <div id="stock-empty" class="empty small hidden">
+        <svg class="empty-illus-small" viewBox="0 0 80 56" aria-hidden="true">
+          <path d="M10 50h60" class="ei-stroke"/>
+          <path d="M14 50V22l26-12 26 12v28" class="ei-stroke"/>
+          <path d="M14 22h52" class="ei-stroke"/>
+        </svg>
+        No items yet — add your first one above.
+      </div>
       <div id="stock-list" class="stock-list"></div>
     </section>
 
@@ -85,7 +132,10 @@
   <div id="weight-modal" class="modal-backdrop hidden">
     <div class="modal">
       <div class="modal-header">
-        <div class="modal-title" id="weight-modal-item"></div>
+        <div class="modal-title-row">
+          <svg class="modal-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3M6 6h12M6 6 3 15a5 4 0 0 0 6 0L6 6ZM18 6l-3 9a5 4 0 0 0 6 0L18 6Z" class="mi-stroke"/></svg>
+          <div class="modal-title" id="weight-modal-item"></div>
+        </div>
         <button class="mic-btn small" id="mic-weight-btn">
           <span class="mic-dot"></span>
           <span class="mic-label">say it</span>
@@ -141,7 +191,10 @@
   <div class="ticket-drawer" id="ticket-drawer">
     <div class="ticket-panel hidden" id="ticket-panel">
       <div class="ticket-panel-header">
-        <div class="card-title">Current sale</div>
+        <div class="card-title-row">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z" class="ci-stroke"/><path d="M9 8h6M9 12h6" class="ci-stroke"/></svg>
+          <div class="card-title">Current sale</div>
+        </div>
         <button class="link-btn mono" id="ticket-hide">hide</button>
       </div>
       <div class="ticket-lines" id="ticket-lines"></div>
